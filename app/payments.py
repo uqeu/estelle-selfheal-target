@@ -1,26 +1,25 @@
-"""Card payments via Stripe.
+"""Card payments via Stripe, built on the Sources API.
 
 ``client`` is an injected Stripe-shaped session carrying its own credentials.
 """
 
 
-def attach_card(client, customer_id, payment_method_id):
+def attach_card(client, customer_id, source_token):
     """Attach a saved card to a customer so it can be charged later."""
-    if not (customer_id and payment_method_id):
-        raise ValueError("customer_id and payment_method_id are required")
-    client.post(f"/v1/payment_methods/{payment_method_id}/attach", data={"customer": customer_id})
-    return payment_method_id
+    if not (customer_id and source_token):
+        raise ValueError("customer_id and source_token are required")
+    client.post(f"/v1/customers/{customer_id}/sources", data={"source": source_token})
+    return source_token
 
 
-def take_payment(client, customer_id, payment_method_id, amount_cents, currency="usd"):
-    """Charge a stored card, returning the resulting intent id."""
+def take_payment(client, customer_id, source_token, amount_cents, currency="usd"):
+    """Charge a stored card, returning the resulting charge id."""
     if amount_cents <= 0:
         raise ValueError("amount_cents must be positive")
-    intent = client.post("/v1/payment_intents", data={
+    charge = client.post("/v1/charges", data={
         "customer": customer_id,
-        "payment_method": payment_method_id,
+        "source": source_token,
         "amount": amount_cents,
         "currency": currency,
-        "confirm": "true",
     })
-    return intent["id"]
+    return charge["id"]
