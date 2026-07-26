@@ -4,12 +4,15 @@
 """
 
 WEATHER_TOOL = {
-    "name": "get_weather",
-    "description": "Look up the current weather for a city.",
-    "parameters": {
-        "type": "object",
-        "properties": {"city": {"type": "string", "description": "City name"}},
-        "required": ["city"],
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Look up the current weather for a city.",
+        "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string", "description": "City name"}},
+            "required": ["city"],
+        },
     },
 }
 
@@ -21,6 +24,6 @@ def ask(client, prompt, model="gpt-4o-mini"):
     response = client.create(
         model=model,
         messages=[{"role": "user", "content": prompt}],
-        functions=[WEATHER_TOOL],
+        tools=[WEATHER_TOOL],
     )
     return response["choices"][0]["message"]
