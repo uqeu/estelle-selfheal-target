@@ -5,7 +5,7 @@ testable without a network and holds no secrets of its own.
 """
 
 # The deployments endpoint we call.
-DEPLOYMENTS_PATH = "/v5/now/deployments"
+DEPLOYMENTS_PATH = "/v13/deployments"
 
 
 def list_deployments(client, project_id, limit=10):
