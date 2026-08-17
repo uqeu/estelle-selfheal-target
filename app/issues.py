@@ -3,10 +3,7 @@
 ``client`` is an injected HTTP session carrying its own credentials.
 """
 
-
-def normalize_issue_body(body):
-    """The repository's one boundary for optional issue text."""
-    return body.strip() if isinstance(body, str) else ""
+from app.text import normalize_issue_body
 
 
 def open_issue(client, repo, title, body="", assignees=()):

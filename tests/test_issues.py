@@ -1,6 +1,7 @@
 import pytest
 
-from app.issues import add_labels, normalize_issue_body, open_issue
+from app.issues import add_labels, open_issue
+from app.text import normalize_issue_body
 
 
 class FakeGitHub:
