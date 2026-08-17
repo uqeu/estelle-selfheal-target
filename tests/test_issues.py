@@ -1,6 +1,6 @@
 import pytest
 
-from app.issues import add_labels, open_issue
+from app.issues import add_labels, normalize_issue_body, open_issue
 
 
 class FakeGitHub:
@@ -34,6 +34,11 @@ def test_open_issue_treats_an_absent_body_as_empty():
     client = FakeGitHub()
     open_issue(client, "acme/site", "It broke", body=None)
     assert client.calls[0][1]["body"] == ""
+
+
+def test_issue_body_normalizer_owns_the_optional_text_boundary():
+    assert normalize_issue_body(None) == ""
+    assert normalize_issue_body("  details  ") == "details"
 
 
 def test_open_issue_requires_a_title():

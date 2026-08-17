@@ -4,6 +4,11 @@
 """
 
 
+def normalize_issue_body(body):
+    """The repository's one boundary for optional issue text."""
+    return body.strip() if isinstance(body, str) else ""
+
+
 def open_issue(client, repo, title, body="", assignees=()):
     """Open an issue and return its number."""
     if not title:
