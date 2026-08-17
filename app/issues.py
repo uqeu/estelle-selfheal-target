@@ -8,7 +8,7 @@ def open_issue(client, repo, title, body="", assignees=()):
     """Open an issue and return its number."""
     if not title:
         raise ValueError("an issue needs a title")
-    payload = {"title": title, "body": body}
+    payload = {"title": title, "body": body.strip()}
     if assignees:
         payload["assignees"] = list(assignees)
     return client.post(f"/repos/{repo}/issues", json=payload)["number"]

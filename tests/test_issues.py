@@ -30,6 +30,12 @@ def test_open_issue_omits_assignees_when_none_given():
     assert "assignees" not in client.calls[0][1]
 
 
+def test_open_issue_treats_an_absent_body_as_empty():
+    client = FakeGitHub()
+    open_issue(client, "acme/site", "It broke", body=None)
+    assert client.calls[0][1]["body"] == ""
+
+
 def test_open_issue_requires_a_title():
     with pytest.raises(ValueError):
         open_issue(FakeGitHub(), "acme/site", "")
